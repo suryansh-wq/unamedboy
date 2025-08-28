@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UnnamedBoy07 by king | Official Website</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: #0d0d0d;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* Neon Glow Effect */
+    h1, h2, h3, p, a {
+      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.9);
+      padding: 15px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 0 15px #0ff;
+    }
+    nav h1 {
+      color: #0ff;
+      margin: 0;
+      font-size: 24px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav ul li a:hover {
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 120px 20px;
+      background: url('https://lh3.googleusercontent.com/abFtNk_0QtglPc1DpxIfBpoFTfSHp66oG8wWlAtzaZIgptWJG1XNVwY9fpYJZmyWEXC0iE_YIc0wLRZtIgVf8LltPg') no-repeat center center/cover;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+    }
+    .hero h2, .hero p, .hero a {
+      position: relative;
+      z-index: 2;
+    }
+    .hero h2 {
+      font-size: 50px;
+      margin-bottom: 20px;
+      color: #0ff;
+    }
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 40px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      margin: 5px;
+      background: linear-gradient(90deg, #0ff, #ff00ff);
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 30px;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #0ff, 0 0 20px #ff00ff;
+    }
+    .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #ff00ff, 0 0 40px #0ff;
+    }
+
+    /* Latest video */
+    .latest-video {
+      padding: 60px 20px;
+      text-align: center;
+      background: #111;
+    }
+    .latest-video h3 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #ff00ff;
+    }
+    iframe {
+      width: 85%;
+      max-width: 900px;
+      height: 450px;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #0ff, 0 0 30px #ff00ff;
+    }
+
+    /* Footer */
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      font-size: 14px;
+      box-shadow: 0 -2px 15px #ff00ff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <h1>UnnamedBoy07</h1>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Videos</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h2>Welcome to the Official Website</h2>
+    <p>⚡ Gaming Servers • Pterodactyl • Tutorials • Guides ⚡</p>
+    <a href="https://www.youtube.com/channel/UC1VBJzrGzWR50HV6YYmv_5g" target="_blank" class="btn">🎥 YouTube Channel</a>
+    <a href="https://discord.gg/" target="_blank" class="btn">💬 Join Discord</a>
+  </section>
+
+  <!-- Latest Video -->
+  <section class="latest-video">
+    <h3>🔥 Latest Upload 🔥</h3>
+    <div id="video-container">
+      <p>Loading latest video...</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 All Rights Reserved by King
+  </footer>
+
+  <script>
+    const CHANNEL_ID = "UC1VBJzrGzWR50HV6YYmv_5g";
+    const container = document.getElementById("video-container");
+
+    async function loadLatestVideo() {
+      try {
+        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent("https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID)}`);
+        const data = await res.json();
+
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, "text/xml");
+        const latest = xml.getElementsByTagName("entry")[0];
+
+        if (latest) {
+          const link = latest.getElementsByTagName("yt:videoId")[0].textContent;
+          container.innerHTML = `<iframe src="https://www.youtube.com/embed/${link}" allowfullscreen></iframe>`;
+        } else {
+          container.innerHTML = "<p>No videos found.</p>";
+        }
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = "<p>Error loading video.</p>";
+      }
+    }
+
+    loadLatestVideo();
+  </script>
+
+</body>
+</html>
