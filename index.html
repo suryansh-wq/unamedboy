@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UnnamedBoy07 | Official Website</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #fff;
+    }
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #111;
+      padding: 15px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav h1 {
+      color: #ff0000;
+      margin: 0;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+    nav ul li {
+      display: inline;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav ul li a:hover {
+      color: #ff0000;
+    }
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 80px 20px;
+      background: url('https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1920&auto=format&fit=crop') no-repeat center center/cover;
+    }
+    .hero h2 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 25px;
+      margin: 5px;
+      background: #ff0000;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #cc0000;
+    }
+    /* Latest video */
+    .latest-video {
+      padding: 50px 20px;
+      text-align: center;
+      background: #1a1a1a;
+    }
+    .latest-video h3 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    iframe {
+      width: 80%;
+      max-width: 900px;
+      height: 450px;
+      border: none;
+      border-radius: 10px;
+    }
+    /* Footer */
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <h1>UnnamedBoy07</h1>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Videos</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h2>Welcome to the Official Website</h2>
+    <p>Gaming Servers • Pterodactyl • Tutorials • Guides</p>
+    <a href="https://www.youtube.com/channel/UC1VBJzrGzWR50HV6YYmv_5g" target="_blank" class="btn">YouTube Channel</a>
+    <a href="https://discord.gg/" target="_blank" class="btn">Join Discord</a>
+  </section>
+
+  <!-- Latest Video -->
+  <section class="latest-video">
+    <h3>Latest Video</h3>
+    <div id="video-container">
+      <p>Loading latest video...</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 All Rights Reserved by King
+  </footer>
+
+  <script>
+    const CHANNEL_ID = "UC1VBJzrGzWR50HV6YYmv_5g";
+    const container = document.getElementById("video-container");
+
+    async function loadLatestVideo() {
+      try {
+        // Fetch RSS feed through free CORS proxy
+        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent("https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID)}`);
+        const data = await res.json();
+
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data.contents, "text/xml");
+        const latest = xml.getElementsByTagName("entry")[0];
+
+        if (latest) {
+          const link = latest.getElementsByTagName("yt:videoId")[0].textContent;
+          container.innerHTML = `<iframe src="https://www.youtube.com/embed/${link}" allowfullscreen></iframe>`;
+        } else {
+          container.innerHTML = "<p>No videos found.</p>";
+        }
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = "<p>Error loading video.</p>";
+      }
+    }
+
+    loadLatestVideo();
+  </script>
+
+</body>
+</html>
