@@ -7,93 +7,123 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
+      font-family: 'Orbitron', sans-serif;
+      background: #0d0d0d;
       color: #fff;
+      overflow-x: hidden;
     }
+
+    /* Neon Glow Effect */
+    h1, h2, h3, p, a {
+      text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+    }
+
     /* Navbar */
     nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #111;
+      background: rgba(10, 10, 10, 0.9);
       padding: 15px 40px;
       position: sticky;
       top: 0;
       z-index: 100;
+      box-shadow: 0 0 15px #0ff;
     }
     nav h1 {
-      color: #ff0000;
+      color: #0ff;
       margin: 0;
+      font-size: 24px;
     }
     nav ul {
       list-style: none;
       display: flex;
-      gap: 20px;
-    }
-    nav ul li {
-      display: inline;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
     }
     nav ul li a {
       color: #fff;
       text-decoration: none;
       font-weight: bold;
+      transition: 0.3s;
     }
     nav ul li a:hover {
-      color: #ff0000;
+      color: #ff00ff;
+      text-shadow: 0 0 10px #ff00ff;
     }
+
     /* Hero */
     .hero {
       text-align: center;
-      padding: 80px 20px;
-      background: url('https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1920&auto=format&fit=crop') no-repeat center center/cover;
+      padding: 120px 20px;
+      background: url('https://lh3.googleusercontent.com/abFtNk_0QtglPc1DpxIfBpoFTfSHp66oG8wWlAtzaZIgptWJG1XNVwY9fpYJZmyWEXC0iE_YIc0wLRZtIgVf8LltPg') no-repeat center center/cover;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+    }
+    .hero h2, .hero p, .hero a {
+      position: relative;
+      z-index: 2;
     }
     .hero h2 {
-      font-size: 40px;
+      font-size: 50px;
       margin-bottom: 20px;
+      color: #0ff;
     }
     .hero p {
-      font-size: 18px;
-      margin-bottom: 30px;
+      font-size: 20px;
+      margin-bottom: 40px;
     }
     .btn {
       display: inline-block;
-      padding: 12px 25px;
+      padding: 12px 30px;
       margin: 5px;
-      background: #ff0000;
-      color: #fff;
+      background: linear-gradient(90deg, #0ff, #ff00ff);
+      color: #000;
       text-decoration: none;
       font-weight: bold;
-      border-radius: 5px;
+      border-radius: 30px;
       transition: 0.3s;
+      box-shadow: 0 0 10px #0ff, 0 0 20px #ff00ff;
     }
     .btn:hover {
-      background: #cc0000;
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #ff00ff, 0 0 40px #0ff;
     }
+
     /* Latest video */
     .latest-video {
-      padding: 50px 20px;
+      padding: 60px 20px;
       text-align: center;
-      background: #1a1a1a;
+      background: #111;
     }
     .latest-video h3 {
-      font-size: 28px;
+      font-size: 32px;
       margin-bottom: 20px;
+      color: #ff00ff;
     }
     iframe {
-      width: 80%;
+      width: 85%;
       max-width: 900px;
       height: 450px;
       border: none;
-      border-radius: 10px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #0ff, 0 0 30px #ff00ff;
     }
+
     /* Footer */
     footer {
-      background: #111;
+      background: #000;
       text-align: center;
       padding: 20px;
       margin-top: 40px;
       font-size: 14px;
+      box-shadow: 0 -2px 15px #ff00ff;
     }
   </style>
 </head>
@@ -113,14 +143,14 @@
   <!-- Hero -->
   <section class="hero">
     <h2>Welcome to the Official Website</h2>
-    <p>Gaming Servers • Pterodactyl • Tutorials • Guides</p>
-    <a href="https://www.youtube.com/channel/UC1VBJzrGzWR50HV6YYmv_5g" target="_blank" class="btn">YouTube Channel</a>
-    <a href="https://discord.gg/" target="_blank" class="btn">Join Discord</a>
+    <p>⚡ Gaming Servers • Pterodactyl • Tutorials • Guides ⚡</p>
+    <a href="https://www.youtube.com/channel/UC1VBJzrGzWR50HV6YYmv_5g" target="_blank" class="btn">🎥 YouTube Channel</a>
+    <a href="https://discord.gg/" target="_blank" class="btn">💬 Join Discord</a>
   </section>
 
   <!-- Latest Video -->
   <section class="latest-video">
-    <h3>Latest Video</h3>
+    <h3>🔥 Latest Upload 🔥</h3>
     <div id="video-container">
       <p>Loading latest video...</p>
     </div>
@@ -137,7 +167,6 @@
 
     async function loadLatestVideo() {
       try {
-        // Fetch RSS feed through free CORS proxy
         const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent("https://www.youtube.com/feeds/videos.xml?channel_id=" + CHANNEL_ID)}`);
         const data = await res.json();
 
